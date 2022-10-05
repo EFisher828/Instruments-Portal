@@ -1,16 +1,12 @@
-var defaultData = 'https://raw.githubusercontent.com/EFisher828/Instruments-Portal/main/dataList-10-4.csv';
-var urlInput = document.getElementById('fetchURL');
-var pollingCheckbox = document.getElementById('enablePolling');
-var pollingInput = document.getElementById('pollingTime');
-
-function createChart() {
-    Highcharts.chart('container', {
+const tempAndRHData = 'https://raw.githubusercontent.com/EFisher828/Instruments-Portal/main/tempAndRH-10-4.csv';
+function tempAndRH() {
+    Highcharts.chart('tempAndRH', {
         chart: {
             type: 'spline',
             zoomType: 'x'
         },
         title: {
-            text: 'FAIR Data'
+            text: 'Temperature and Dew Point'
         },
         accessibility: {
             announceNewData: {
@@ -25,12 +21,7 @@ function createChart() {
             }
         },
         data: {
-            csvURL: defaultData,
-            //complete: function(options) {
-              //options.series = options.series.filter(data => data.name === 'Temperature')
-              //options.series.splice(0, 1),
-              //options.series.splice(0, 1)
-            //},
+            csvURL: tempAndRHData,
         },
         series: [{
           color: 'red'
@@ -39,11 +30,36 @@ function createChart() {
         }]
     });
 }
+tempAndRH();
 
-urlInput = defaultData;
-
-// We recreate instead of using chart update to make sure the loaded CSV
-// and such is completely gone.
-
-// Create the chart
-createChart();
+const solarRadData = 'https://raw.githubusercontent.com/EFisher828/Instruments-Portal/main/solarRad-10-4.csv';
+function solarRad() {
+    Highcharts.chart('solarRad', {
+        chart: {
+            type: 'spline',
+            zoomType: 'x'
+        },
+        title: {
+            text: 'Solar Radiation'
+        },
+        accessibility: {
+            announceNewData: {
+                enabled: true,
+                minAnnounceInterval: 15000,
+                announcementFormatter: function (allSeries, newSeries, newPoint) {
+                    if (newPoint) {
+                        return 'New point added. Value: ' + newPoint.y;
+                    }
+                    return false;
+                }
+            }
+        },
+        data: {
+            csvURL: solarRadData,
+        },
+        series: [{
+          color: '#ffe75e'
+        }]
+    });
+}
+solarRad();
